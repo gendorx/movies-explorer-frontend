@@ -1,0 +1,16 @@
+.hamburger-button {
+    border: none;
+    background: url('../../images/burger-logo.svg') no-repeat;
+    background-size: 100%;
+    background-position: center;
+    max-width: 44px;
+    width: 100%;
+    cursor: pointer;
+    padding: 0;
+}
+
+@media screen and (max-width: 767px) {
+    .hamburger-button {
+        max-width: 39px;
+    }
+}
