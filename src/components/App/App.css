@@ -1,0 +1,10 @@
+.app {
+  background-color: #202020;
+  color: #fff;
+  text-rendering: optimizeLegibility;
+  font-family: "Inter", Arial, sans-serif;
+  font-style: normal;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
