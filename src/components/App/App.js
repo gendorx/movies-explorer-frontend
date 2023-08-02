@@ -28,7 +28,13 @@ function App() {
 
   const closeMenu = () => {
     setOpenedBurger(false);
-  }
+  };
+
+  useEffect(() => {
+    if (pathname === "/") {
+      closeMenu();
+    }
+  }, [pathname]);
 
   /** Временное решение: убрать стейт авторизирован ли пользователь при переходе на страницы */
 

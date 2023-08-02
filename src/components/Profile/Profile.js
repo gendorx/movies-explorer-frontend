@@ -4,6 +4,8 @@ import Form from "../Form/Form";
 import FormInput from "../FormInput/FormInput";
 import EmailInput from "../EmailInput/EmailInput";
 
+import { Link } from "react-router-dom";
+
 function Profile() {
   const noop = (e) => e.preventDefault();
 
@@ -21,7 +23,7 @@ function Profile() {
   };
 
   return (
-    <section className="profile">
+    <main className="profile">
       <h2 className="profile__title">Привет, Виталий!</h2>
       <div className="profile__container">
         <Form className="profile__form" onSubmit={noop}>
@@ -45,21 +47,17 @@ function Profile() {
             {...inputProps}
           />
 
-          <div className="profile__button-container">
-            <button className="profile__button" type="submit">
+          <div className="profile__links-container">
+            <button className="profile__link-item" type="submit">
               Редактировать
             </button>
-
-            <button
-              className="profile__button profile__button_color_red"
-              type="submit"
-            >
+            <Link to="/" className="profile__link-item profile__link-item_color_red">
               Выйти из аккаунта
-            </button>
+            </Link>
           </div>
         </Form>
       </div>
-    </section>
+    </main>
   );
 }
 

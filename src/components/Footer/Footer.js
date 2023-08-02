@@ -17,13 +17,21 @@ function Footer() {
 
           <ul className="footer__list-links">
             <li className="footer__link-item">
-              <Link className="footer__link" to="#">
+              <Link
+                className="footer__link"
+                target="_blank"
+                to="https://practicum.yandex.ru/"
+              >
                 Яндекс.Практикум
               </Link>
             </li>
 
             <li className="footer__link-item">
-              <Link className="footer__link" to="#">
+              <Link
+                className="footer__link"
+                target="_blank"
+                to="https://github.com/gendorx"
+              >
                 Github
               </Link>
             </li>

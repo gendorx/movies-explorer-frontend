@@ -9,7 +9,7 @@ function Navigation({ loggedIn, isBurgerOpened, closeMenu }) {
   return (
     <nav
       className={`navigation ${
-        isMobile
+        isMobile && loggedIn
           ? isBurgerOpened
             ? "navigation_popup_opened"
             : "navigation_popup_closed"
@@ -23,6 +23,7 @@ function Navigation({ loggedIn, isBurgerOpened, closeMenu }) {
               <button
                 className="navigation__btn-popup-close"
                 onClick={closeMenu}
+                type="button"
               ></button>
             )}
 

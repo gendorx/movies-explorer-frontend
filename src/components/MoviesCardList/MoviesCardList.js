@@ -137,7 +137,7 @@ function MoviesCardList({ isSavedFilms }) {
 
       {!isSavedFilms && (
         <div className="movies-cards__button-container">
-          <button className="movies-cards__button">Ещё</button>
+          <button type="button" className="movies-cards__button">Ещё</button>
         </div>
       )}
     </section>

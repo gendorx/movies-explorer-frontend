@@ -10,21 +10,33 @@ function Portfolio() {
 
         <ul className="portfolio__list">
           <li className="portfolio__list-item">
-            <Link to="#" className="porfolio__list-item-link">
+            <Link
+              to="https://github.com/gendorx/how-to-learn"
+              target="_blank"
+              className="portfolio__list-item-link"
+            >
               <p className="portfolio__text">Статичный сайт</p>
               <p className="portfolio__arrow">↗</p>
             </Link>
           </li>
 
           <li className="portfolio__list-item">
-            <Link to="#" className="porfolio__list-item-link">
+            <Link
+              to="https://github.com/gendorx/mesto"
+              target="_blank"
+              className="portfolio__list-item-link"
+            >
               <p className="portfolio__text">Адаптивный сайт</p>
               <p className="portfolio__arrow">↗</p>
             </Link>
           </li>
 
           <li className="portfolio__list-item">
-            <Link to="#" className="porfolio__list-item-link">
+            <Link
+              to="https://github.com/gendorx/react-mesto-api-full-gha"
+              target="_blank"
+              className="portfolio__list-item-link"
+            >
               <p className="portfolio__text">Одностраничное приложение</p>
               <p className="portfolio__arrow">↗</p>
             </Link>

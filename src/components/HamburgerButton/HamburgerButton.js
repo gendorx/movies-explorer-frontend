@@ -2,7 +2,7 @@ import "./HamburgerButton.css";
 
 function HamburgerButton({ onClick }) {
   return (
-    <button className="hamburger-button" onClick={onClick}></button>
+    <button type='button' className="hamburger-button" onClick={onClick}></button>
   );
 }
 

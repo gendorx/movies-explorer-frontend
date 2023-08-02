@@ -5,10 +5,13 @@
 }
 
 .navigation_popup_opened {
-  display: block;
+  width: 100%;
+  height: 100vh;
   position: fixed;
   top: 0;
   right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 2;
 }
 
 .navigation__btn-popup-close {
@@ -69,6 +72,11 @@
 .navigation__link {
   color: #fff;
   text-decoration: none;
+  transition: opacity 0.4s ease;
+}
+
+.navigation__link:hover {
+  opacity: 0.5;
 }
 
 .navigation__link_active {
@@ -112,16 +120,6 @@
 }
 
 @media screen and (max-width: 900px) {
-  .navigation {
-    width: 100%;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    right: 0;
-    background-color: rgba(0, 0, 0, 0.3);
-    z-index: 2;
-  }
-
   .navigation__container {
     margin-left: auto;
     max-width: 520px;
@@ -135,6 +133,10 @@
     row-gap: 0px;
   }
 
+  .navigation__auth { 
+    margin-top: 10px;
+  }
+
   .navigation__list {
     flex-direction: column;
     row-gap: 34px;
@@ -146,6 +148,10 @@
 
   .navigation__link {
     padding-bottom: 4px;
+  }
+
+  .navigation__link_green {
+    padding: 8px 20px;
   }
 
   .navigation__link_active {

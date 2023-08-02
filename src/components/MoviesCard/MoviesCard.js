@@ -17,6 +17,7 @@ function MoviesCard({ card, isSavedFilms, isSavedFilm, handleButtonClick }) {
         {isSavedFilms ? (
           <button
             className={`movie-card__button-delete`}
+            type='button'
             onClick={() => {}}
           ></button>
         ) : (
@@ -24,6 +25,7 @@ function MoviesCard({ card, isSavedFilms, isSavedFilm, handleButtonClick }) {
             className={`movie-card__button-save ${
               isSavedFilm(card.id) && "movie-card__button-save_active"
             }`}
+            type="button"
             onClick={() => handleButtonClick(card.id)}
           ></button>
         )}

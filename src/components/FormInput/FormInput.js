@@ -25,6 +25,7 @@ function FormInput({
           type={type}
           className={`${inputClass} ${errors[name] && inputClassError}`}
           {...register(name, props)}
+          id={id}
         />
       </label>
       <span className={errorClass}>{errors[name]?.message}</span>

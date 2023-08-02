@@ -16,9 +16,15 @@ function Sign({
   const onSubmit = (values) => console.log(values);
 
   return (
-    <section className="sign">
+    <main className="sign">
       <div className="sign__container">
-        <img src={signLogo} alt="логотип авторизации" className="sign__logo" />
+        <Link to="/">
+          <img
+            src={signLogo}
+            alt="логотип авторизации"
+            className="sign__logo"
+          />
+        </Link>
         <h2 className="sign__title">{title}</h2>
 
         <Form className="sign__form" onSubmit={onSubmit}>
@@ -36,7 +42,7 @@ function Sign({
           </Link>
         </p>
       </div>
-    </section>
+    </main>
   );
 }
 

@@ -35,7 +35,7 @@ function Register() {
 
       <EmailInput
         name="email"
-        id="sign-name"
+        id="sign-email"
         labelText="E-mail"
         required
         {...inputProps}
