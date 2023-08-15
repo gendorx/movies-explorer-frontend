@@ -27,8 +27,8 @@ function FormInput({
           {...register(name, props)}
           id={id}
         />
+        <span className={errorClass}>{errors[name]?.message}</span>
       </label>
-      <span className={errorClass}>{errors[name]?.message}</span>
     </>
   );
 }

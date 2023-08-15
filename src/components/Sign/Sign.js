@@ -12,9 +12,8 @@ function Sign({
   asideText,
   asideLinkText,
   asideLink,
+  onSubmit,
 }) {
-  const onSubmit = (values) => console.log(values);
-
   return (
     <main className="sign">
       <div className="sign__container">
@@ -27,7 +26,7 @@ function Sign({
         </Link>
         <h2 className="sign__title">{title}</h2>
 
-        <Form className="sign__form" onSubmit={onSubmit}>
+        <Form id="sign-form" className="sign__form" onSubmit={onSubmit}>
           <div className="sign__form-inputs">{children}</div>
 
           <button type="submit" className="sign__form-submit">

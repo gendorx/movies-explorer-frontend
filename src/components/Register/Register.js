@@ -2,7 +2,7 @@ import Sign from "../Sign/Sign";
 import FormInput from "../FormInput/FormInput";
 import EmailInput from "../EmailInput/EmailInput";
 
-function Register() {
+function Register({ onSubmit }) {
   const inputProps = {
     labelClass: "sign__label",
     inputClass: "sign__input",
@@ -14,6 +14,23 @@ function Register() {
   const nameProps = {
     minLength: { value: 2, message: "Минимальная длина - 2 символа" },
     maxLength: { value: 30, message: "Максимальная длина - 30 символов" },
+    required: { value: true, message: "Введите свое имя" },
+  };
+
+  const emailProps = {
+    ...inputProps,
+    required: {
+      value: true,
+      message: "Требуется ввести электронную почту",
+    },
+  };
+
+  const passwordProps = {
+    ...inputProps,
+    required: {
+      value: true,
+      message: "Требуется ввести пароль",
+    },
   };
 
   return (
@@ -23,6 +40,7 @@ function Register() {
       asideText="Уже зарегистрированы?"
       asideLinkText="Войти"
       asideLink="/signin"
+      onSubmit={onSubmit}
     >
       <FormInput
         type="text"
@@ -38,7 +56,7 @@ function Register() {
         id="sign-email"
         labelText="E-mail"
         required
-        {...inputProps}
+        {...emailProps}
       />
 
       <FormInput
@@ -47,7 +65,7 @@ function Register() {
         id="sign-password"
         labelText="Пароль"
         required
-        {...inputProps}
+        {...passwordProps}
       />
     </Sign>
   );

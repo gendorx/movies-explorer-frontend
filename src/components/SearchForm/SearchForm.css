@@ -33,6 +33,22 @@
     column-gap: 10px;
 }
 
+.search__input-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.search__input-error {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 1.2;
+    color: #ee3465;
+    position: absolute;
+    top: 27px;
+    left: 3px;
+}
+
 .search__input {
     background: transparent;
     border: none;

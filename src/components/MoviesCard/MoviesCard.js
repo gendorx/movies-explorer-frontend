@@ -3,7 +3,13 @@ import "./MoviesCard.css";
 import { Link } from "react-router-dom";
 import { convertDuration } from "../../utils/utils";
 
-function MoviesCard({ card, isSavedFilms, isSavedFilm, handleButtonClick }) {
+function MoviesCard({
+  card,
+  isSavedMovies,
+  isSavedFilm,
+  onDeleteClick,
+  onLikeClick,
+}) {
   return (
     <li className="movie-card">
       <div className="movie-card__header">
@@ -14,19 +20,21 @@ function MoviesCard({ card, isSavedFilms, isSavedFilm, handleButtonClick }) {
           </p>
         </div>
 
-        {isSavedFilms ? (
+        {isSavedMovies ? (
           <button
             className={`movie-card__button-delete`}
-            type='button'
-            onClick={() => {}}
+            type="button"
+            onClick={() => onDeleteClick(card)}
           ></button>
         ) : (
           <button
             className={`movie-card__button-save ${
-              isSavedFilm(card.id) && "movie-card__button-save_active"
+              isSavedFilm && "movie-card__button-save_active"
             }`}
             type="button"
-            onClick={() => handleButtonClick(card.id)}
+            onClick={() =>
+              isSavedFilm ? onDeleteClick(card) : onLikeClick(card)
+            }
           ></button>
         )}
       </div>

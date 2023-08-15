@@ -2,7 +2,7 @@ import Sign from "../Sign/Sign";
 import EmailInput from "../EmailInput/EmailInput";
 import FormInput from "../FormInput/FormInput";
 
-function Login() {
+function Login({ onSubmit }) {
   const inputProps = {
     labelClass: "sign__label",
     inputClass: "sign__input",
@@ -11,6 +11,22 @@ function Login() {
     inputClassError: "sign__input_error",
   };
 
+  const emailProps = {
+    ...inputProps,
+    required: {
+      value: true,
+      message: "Требуется ввести электронную почту",
+    },
+  };
+
+  const passwordProps = {
+    ...inputProps,
+    required: {
+      value: true,
+      message: "Требуется ввести пароль"
+    }
+  }
+
   return (
     <Sign
       title="Рады видеть!"
@@ -18,13 +34,14 @@ function Login() {
       asideText="Ещё не зарегистрированы?"
       asideLinkText="Регистрация"
       asideLink="/signup"
+      onSubmit={onSubmit}
     >
       <EmailInput
         name="email"
         id="sign-email"
         labelText="E-mail"
         required
-        {...inputProps}
+        {...emailProps}
       />
 
       <FormInput
@@ -33,7 +50,7 @@ function Login() {
         id="sign-password"
         labelText="Пароль"
         required
-        {...inputProps}
+        {...passwordProps}
       />
     </Sign>
   );

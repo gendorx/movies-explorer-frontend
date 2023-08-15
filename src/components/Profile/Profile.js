@@ -4,10 +4,11 @@ import Form from "../Form/Form";
 import FormInput from "../FormInput/FormInput";
 import EmailInput from "../EmailInput/EmailInput";
 
-import { Link } from "react-router-dom";
+import currentUserContext from "../../contexts/currentUserContext";
+import { useContext } from "react";
 
-function Profile() {
-  const noop = (e) => e.preventDefault();
+function Profile({ onSubmit, signOut }) {
+  const currentUser = useContext(currentUserContext);
 
   const nameProps = {
     minLength: { value: 2, message: "Минимальная длина - 2 символа" },
@@ -24,16 +25,16 @@ function Profile() {
 
   return (
     <main className="profile">
-      <h2 className="profile__title">Привет, Виталий!</h2>
+      <h2 className="profile__title">Привет, {currentUser.name}!</h2>
       <div className="profile__container">
-        <Form className="profile__form" onSubmit={noop}>
+        <Form className="profile__form" onSubmit={onSubmit}>
           <FormInput
             type="text"
             name="name"
             id="profile-name"
             labelText="Имя"
             required
-            value="Виталий"
+            value={currentUser.name}
             {...inputProps}
             {...nameProps}
           />
@@ -43,7 +44,7 @@ function Profile() {
             id="profile-email"
             labelText="E-mail"
             required
-            value="pochta@yandex.ru"
+            value={currentUser.email}
             {...inputProps}
           />
 
@@ -51,9 +52,12 @@ function Profile() {
             <button className="profile__link-item" type="submit">
               Редактировать
             </button>
-            <Link to="/" className="profile__link-item profile__link-item_color_red">
+            <button
+              onClick={signOut}
+              className="profile__link-item profile__link-item_color_red"
+            >
               Выйти из аккаунта
-            </Link>
+            </button>
           </div>
         </Form>
       </div>

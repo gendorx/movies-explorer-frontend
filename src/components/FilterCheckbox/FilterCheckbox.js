@@ -1,6 +1,6 @@
 import "./FilterCheckbox.css";
 
-function FilterCheckbox() {
+function FilterCheckbox({ isShortMovies, onChange }) {
   return (
     <div className="filter">
       <div className="filter__container">
@@ -9,6 +9,9 @@ function FilterCheckbox() {
             type="checkbox"
             id="filter-checkbox"
             className="filter__checkbox"
+            checked={isShortMovies}
+            name="isShortMovies"
+            onChange={onChange}
           />
 
           <span className="filter__text">Короткометражки</span>

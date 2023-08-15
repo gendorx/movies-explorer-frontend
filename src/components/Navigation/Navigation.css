@@ -67,6 +67,7 @@
   width: 100%;
   margin: 0;
   column-gap: 30px;
+  align-items: center;
 }
 
 .navigation__link {
@@ -135,6 +136,7 @@
 
   .navigation__auth { 
     margin-top: 10px;
+    align-items: normal;
   }
 
   .navigation__list {
