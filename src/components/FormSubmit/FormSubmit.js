@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
-function FormInput({ className, classNameInvalid, isDisabled = true, children }) {
+function FormInput({ className, classNameInvalid, isDisabled = false, children }) {
   const {
     formState: { isValid },
   } = useFormContext();
