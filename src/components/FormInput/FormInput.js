@@ -10,6 +10,7 @@ function FormInput({
   id,
   name,
   type,
+  onChange,
   ...props
 }) {
   const {
@@ -26,6 +27,7 @@ function FormInput({
           className={`${inputClass} ${errors[name] && inputClassError}`}
           {...register(name, props)}
           id={id}
+          onChange={onChange}
         />
         <span className={errorClass}>{errors[name]?.message}</span>
       </label>

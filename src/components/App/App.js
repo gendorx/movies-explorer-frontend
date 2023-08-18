@@ -14,7 +14,12 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 
 import currentUserContext from "../../contexts/currentUserContext";
-import { mainApi, moviesApi, authApi } from "../../utils/constants";
+import {
+  mainApi,
+  moviesApi,
+  authApi,
+  keysStorageForClear,
+} from "../../utils/constants";
 import { NetworkErrorMessage } from "../../configs/common";
 import ApiError from "../../utils/errros/ApiError";
 
@@ -165,7 +170,7 @@ function App() {
     setLogged(false);
     setCurrentUser({});
 
-    localStorage.removeItem("jwt");
+    keysStorageForClear.forEach((key) => localStorage.removeItem(key));
   }, []);
 
   useEffect(() => {
@@ -226,6 +231,7 @@ function App() {
                   listMovies={listMovies}
                   setLoaderOpened={setLoaderOpened}
                   handleApiError={handleApiError}
+                  showErrorTooltip={showErrorTooltip}
                 />
               }
             />
@@ -239,6 +245,7 @@ function App() {
                   listMovies={listMovies}
                   setLoaderOpened={setLoaderOpened}
                   handleApiError={handleApiError}
+                  showErrorTooltip={showErrorTooltip}
                 />
               }
             />

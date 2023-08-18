@@ -13,12 +13,13 @@ export function filterShortMovies(movies) {
 
 export function findByQueryMovies(moviesList, query, isShortMovies) {
   query = query.toLowerCase();
-  console.log(moviesList, query, isShortMovies);
 
-  let filteredMovies = moviesList.filter((movie) => {
-    const names = [movie.nameRU.toLowerCase(), movie.nameEN.toLowerCase()];
-    return names.some((name) => name.indexOf(query) > -1);
-  });
+  let filteredMovies = query
+    ? moviesList.filter((movie) => {
+        const names = [movie.nameRU.toLowerCase(), movie.nameEN.toLowerCase()];
+        return names.some((name) => name.indexOf(query) > -1);
+      })
+    : moviesList;
 
   if (isShortMovies) {
     filteredMovies = filterShortMovies(filteredMovies);

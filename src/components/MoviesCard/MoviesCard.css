@@ -41,16 +41,16 @@
     border: none;
     border-radius: 50%;
     padding: 15px;
-    background: #3DDC84;
-    background-image: url('../../images/save-button.svg');
+    background: #313131;
+    background-image: url('../../images/button-unmark.svg');
     background-position: center;
     background-repeat: no-repeat;
     cursor: pointer;
 }
 
 .movie-card__button-save_active {
-    background: #313131;
-    background-image: url('../../images/button-unmark.svg');
+    background: #3DDC84;
+    background-image: url('../../images/save-button.svg');
     background-position: center;
     background-repeat: no-repeat;
 }

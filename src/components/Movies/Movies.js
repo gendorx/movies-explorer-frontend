@@ -4,11 +4,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 
 import { moviesApi, mainApi } from "../../utils/constants";
-import {
-  filterShortMovies,
-  findByQueryMovies,
-  transformMovies,
-} from "../../utils/utils";
+import { findByQueryMovies, transformMovies } from "../../utils/utils";
 
 const bindMethodsNames = [
   "handleChangeFilterCheckbox",
@@ -26,7 +22,6 @@ class Movies extends Component {
       allMovies: [],
       savedMovies: [],
       outputMovies: [],
-      isNotFound: false,
       isShortMovies: false,
       query: "",
     };
@@ -37,30 +32,32 @@ class Movies extends Component {
   }
 
   componentDidMount() {
-    const isShortFilmsFromStorage = localStorage.getItem("isShortMovies");
-    const queryUser = localStorage.getItem("query");
-
-    if (!isShortFilmsFromStorage) {
-      localStorage.setItem("isShortMovies", false);
-    }
-
-    this.setNewState({
-      isShortMovies: isShortFilmsFromStorage === "true" ? true : false,
-      isSavedMovies: window.location.pathname === "/saved-movies",
-      query: queryUser || "",
-    });
-
+    this.setNewState(this.getNewStateMovies());
     this.getMovies().then(({ allMovies, savedMovies }) => {
       const moviesList = this.props.isSavedMovies ? savedMovies : allMovies;
 
       this.setNewState({
         allMovies,
         savedMovies,
-        outputMovies: this.state.isShortMovies
-          ? filterShortMovies(moviesList)
-          : moviesList,
+        outputMovies: this.getOutputMovies(moviesList),
       });
     });
+  }
+
+  getOutputMovies(moviesList) {
+    const { showErrorTooltip } = this.props;
+
+    const listMovies = findByQueryMovies(
+      moviesList,
+      this.state.query,
+      this.state.isShortMovies
+    );
+
+    if (!listMovies.length) {
+      showErrorTooltip("Ничего не найдено.");
+    }
+
+    return listMovies;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -76,12 +73,29 @@ class Movies extends Component {
 
     if (prevProps.isSavedMovies !== this.props.isSavedMovies) {
       const moviesList = this.getByPathMovies();
+      const newStateMovies = this.getNewStateMovies();
       this.setNewState({
-        outputMovies: this.state.isShortMovies
-          ? filterShortMovies(moviesList)
-          : moviesList,
+        outputMovies: this.getOutputMovies(moviesList),
+        ...newStateMovies,
       });
     }
+  }
+
+  getNewStateMovies() {
+    const keyIsShortMovies = this.getKeyStorage("isShortMovies");
+    const keyQueryUser = this.getKeyStorage("query");
+
+    const queryUser = localStorage.getItem(keyQueryUser);
+    const isShortMovies = localStorage.getItem(keyIsShortMovies);
+
+    return {
+      query: queryUser || "",
+      isShortMovies: isShortMovies === "true",
+    };
+  }
+
+  getKeyStorage(key) {
+    return `${key}-${this.props.isSavedMovies ? "savedMovies" : "allMovies"}`;
   }
 
   async getMovies() {
@@ -130,15 +144,17 @@ class Movies extends Component {
     this.setNewState({
       isShortMovies: !this.state.isShortMovies,
     });
-    localStorage.setItem("isShortMovies", !this.state.isShortMovies);
+
+    localStorage.setItem(
+      this.getKeyStorage("isShortMovies"),
+      !this.state.isShortMovies
+    );
   }
 
   handleChangeInputQuery(e) {
     this.setNewState({
       query: e.target.value,
     });
-
-    localStorage.setItem("query", e.target.value);
   }
 
   handleLikeButton(movie) {
@@ -167,7 +183,7 @@ class Movies extends Component {
   }
 
   handleDeleteButton(movie) {
-    const { setLoaderOpened, handleApiError } = this.props;
+    const { setLoaderOpened, handleApiError, isSavedMovies } = this.props;
 
     const savedMovie = this.state.savedMovies.find(
       (item) => item.movieId === movie.id || item.movieId === movie.movieId
@@ -175,16 +191,18 @@ class Movies extends Component {
 
     setLoaderOpened(true);
 
+    const filterMovies = (item) =>
+      movie.id === item.movieId || movie.movieId === item.movieId
+        ? false
+        : true;
+
     mainApi
       .deleteFavoriteMovie(savedMovie._id)
       .then(() => {
-        const moviesList = this.state.savedMovies.filter((item) =>
-          movie.id === item.movieId || movie.movieId === item.movieId
-            ? false
-            : true
-        );
+        const moviesList = this.state.savedMovies.filter(filterMovies);
         this.setNewState({
           savedMovies: moviesList,
+          ...(isSavedMovies ? {outputMovies: this.state.outputMovies.filter(filterMovies)} : {})
         });
 
         localStorage.setItem("savedMovies", JSON.stringify(moviesList));
@@ -199,14 +217,16 @@ class Movies extends Component {
       : this.state.allMovies;
   }
 
-  handleSubmitSearch({ query }) {
+  handleSubmitSearch() {
     this.setNewState({
-      outputMovies: findByQueryMovies(
-        this.getByPathMovies(),
-        this.state.query,
-        this.state.isShortMovies
-      ),
+      outputMovies: this.getOutputMovies(this.getByPathMovies()),
     });
+
+    localStorage.setItem(this.getKeyStorage("query"), this.state.query);
+    localStorage.setItem(
+      this.getKeyStorage("isShortMovies"),
+      this.state.isShortMovies
+    );
   }
 
   render() {
@@ -221,7 +241,7 @@ class Movies extends Component {
           onChangeInputQuery={this.handleChangeInputQuery}
           query={this.state.query}
         />
-        {!state.isNotFound && (
+        {!!state.outputMovies.length && (
           <MoviesCardList
             isSavedMovies={props.isSavedMovies}
             listMovies={state.outputMovies}

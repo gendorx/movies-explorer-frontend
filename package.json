@@ -19,7 +19,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "predeploy": "npm run build",
+    "deploy": "scp -r ./build/* andrew@158.160.16.59:/home/andrew/movies-explorer-frontend"
   },
   "eslintConfig": {
     "extends": [

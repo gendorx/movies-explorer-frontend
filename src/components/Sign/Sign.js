@@ -1,6 +1,7 @@
 import "./Sign.css";
 
 import Form from "../Form/Form";
+import FormSubmit from "../FormSubmit/FormSubmit";
 
 import signLogo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
@@ -28,10 +29,13 @@ function Sign({
 
         <Form id="sign-form" className="sign__form" onSubmit={onSubmit}>
           <div className="sign__form-inputs">{children}</div>
-
-          <button type="submit" className="sign__form-submit">
+          
+          <FormSubmit
+            className="sign__form-submit"
+            classNameInvalid="sign__form-submit_disabled"
+          >
             {submitText}
-          </button>
+          </FormSubmit>
         </Form>
 
         <p className="sign__aside">

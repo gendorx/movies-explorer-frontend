@@ -43,12 +43,7 @@ function SearchForm({
                   placeholder="Фильм"
                   className="search__input"
                   id="search-query"
-                  {...register(inputName, {
-                    required: {
-                      value: true,
-                      message: "Требуется ввести запрос",
-                    },
-                  })}
+                  {...register(inputName)}
                   value={query}
                   onChange={onChangeInputQuery}
                 />

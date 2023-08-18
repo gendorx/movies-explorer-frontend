@@ -4,7 +4,7 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import { useEffect, useState } from "react";
 import useScreenWidth from "../../hooks/useScreenWidth";
 
-import devicesParamsMovies from "../../configs/devicesParamsMovies";
+import { devicesParamsMovies } from "../../utils/constants";
 
 function MoviesCardList({
   isSavedMovies,
@@ -25,6 +25,8 @@ function MoviesCardList({
         setOutputMoviesList(
           listMovies.filter((_, i) => i < device.displayMovies.total)
         );
+
+        console.log(device);
       }
     }
   }, [screenWidth, listMovies]);
@@ -49,9 +51,9 @@ function MoviesCardList({
       className={`movies-cards ${isSavedMovies && "movies-cards_saved"}`}
     >
       <ul className="movies-cards__list">
-        {outputMoviesList.map((card, id) => (
+        {outputMoviesList.map((card) => (
           <MoviesCard
-            key={id}
+            key={card._id || card.id}
             card={card}
             isSavedFilm={isSavedFilm(card.id)}
             isSavedMovies={isSavedMovies}
