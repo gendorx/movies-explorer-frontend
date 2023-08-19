@@ -32,70 +32,49 @@ class Movies extends Component {
   }
 
   componentDidMount() {
-    this.setNewState(this.getNewStateMovies());
+    const newStateMovies = this.getNewStateMovies();
+    this.setNewState(newStateMovies);
     this.getMovies().then(({ allMovies, savedMovies }) => {
       const moviesList = this.props.isSavedMovies ? savedMovies : allMovies;
 
       this.setNewState({
         allMovies,
         savedMovies,
-        outputMovies: this.getOutputMovies(moviesList),
+        outputMovies: this.getOutputMovies(
+          moviesList,
+          newStateMovies.query,
+          newStateMovies.isShortMovies
+        ),
       });
     });
   }
 
-  getOutputMovies(moviesList) {
-    const { showErrorTooltip } = this.props;
-
-    const listMovies = findByQueryMovies(
-      moviesList,
-      this.state.query,
-      this.state.isShortMovies
-    );
-
-    if (!listMovies.length) {
-      showErrorTooltip("Ничего не найдено.");
-    }
-
-    return listMovies;
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.isShortMovies !== this.state.isShortMovies) {
-      this.setNewState({
-        outputMovies: findByQueryMovies(
-          this.getByPathMovies(),
-          this.state.query,
-          this.state.isShortMovies
-        ),
-      });
-    }
-
     if (prevProps.isSavedMovies !== this.props.isSavedMovies) {
       const moviesList = this.getByPathMovies();
       const newStateMovies = this.getNewStateMovies();
       this.setNewState({
-        outputMovies: this.getOutputMovies(moviesList),
+        outputMovies: this.getOutputMovies(
+          moviesList,
+          newStateMovies.query,
+          newStateMovies.isShortMovies
+        ),
         ...newStateMovies,
       });
     }
   }
 
-  getNewStateMovies() {
-    const keyIsShortMovies = this.getKeyStorage("isShortMovies");
-    const keyQueryUser = this.getKeyStorage("query");
+  async getDataFromStorageOrServer(localKey, fn) {
+    let moviesList = localStorage.getItem(localKey);
 
-    const queryUser = localStorage.getItem(keyQueryUser);
-    const isShortMovies = localStorage.getItem(keyIsShortMovies);
+    if (!moviesList) {
+      moviesList = await fn();
+      localStorage.setItem(localKey, JSON.stringify(moviesList));
+    }
 
-    return {
-      query: queryUser || "",
-      isShortMovies: isShortMovies === "true",
-    };
-  }
-
-  getKeyStorage(key) {
-    return `${key}-${this.props.isSavedMovies ? "savedMovies" : "allMovies"}`;
+    return typeof moviesList === "string"
+      ? JSON.parse(moviesList) || []
+      : moviesList;
   }
 
   async getMovies() {
@@ -127,28 +106,56 @@ class Movies extends Component {
     this.setState({ ...this.state, ...newState });
   }
 
-  async getDataFromStorageOrServer(localKey, fn) {
-    let moviesList = localStorage.getItem(localKey);
+  getByPathMovies() {
+    return this.props.isSavedMovies
+      ? this.state.savedMovies
+      : this.state.allMovies;
+  }
 
-    if (!moviesList) {
-      moviesList = await fn();
-      localStorage.setItem(localKey, JSON.stringify(moviesList));
+  getNewStateMovies() {
+    const { isSavedMovies } = this.props;
+
+    const queryUser = localStorage.getItem("query");
+    const isShortMovies = localStorage.getItem("isShortMovies");
+
+    return {
+      query: isSavedMovies ? "" : queryUser || "",
+      isShortMovies: isSavedMovies ? false : isShortMovies === "true",
+    };
+  }
+
+  getOutputMovies(moviesList, query, isShortFilms) {
+    const { showErrorTooltip } = this.props;
+
+    const listMovies = findByQueryMovies(
+      moviesList,
+      typeof query === "undefined" ? this.state.query : query,
+      typeof isShortFilms === "undefined"
+        ? this.state.isShortMovies
+        : isShortFilms
+    );
+
+    if (!listMovies.length) {
+      showErrorTooltip("Ничего не найдено.");
     }
 
-    return typeof moviesList === "string"
-      ? JSON.parse(moviesList) || []
-      : moviesList;
+    return listMovies;
   }
 
   handleChangeFilterCheckbox() {
+    const { isSavedMovies } = this.props;
+
     this.setNewState({
       isShortMovies: !this.state.isShortMovies,
+      outputMovies: this.getOutputMovies(
+        this.getByPathMovies(),
+        this.state.query,
+        !this.state.isShortMovies
+      ),
     });
 
-    localStorage.setItem(
-      this.getKeyStorage("isShortMovies"),
-      !this.state.isShortMovies
-    );
+    if (!isSavedMovies)
+      localStorage.setItem("isShortMovies", !this.state.isShortMovies);
   }
 
   handleChangeInputQuery(e) {
@@ -202,7 +209,9 @@ class Movies extends Component {
         const moviesList = this.state.savedMovies.filter(filterMovies);
         this.setNewState({
           savedMovies: moviesList,
-          ...(isSavedMovies ? {outputMovies: this.state.outputMovies.filter(filterMovies)} : {})
+          ...(isSavedMovies
+            ? { outputMovies: this.state.outputMovies.filter(filterMovies) }
+            : {}),
         });
 
         localStorage.setItem("savedMovies", JSON.stringify(moviesList));
@@ -211,22 +220,17 @@ class Movies extends Component {
       .finally(() => setLoaderOpened(false));
   }
 
-  getByPathMovies() {
-    return this.props.isSavedMovies
-      ? this.state.savedMovies
-      : this.state.allMovies;
-  }
-
   handleSubmitSearch() {
+    const { isSavedMovies } = this.props;
+
     this.setNewState({
       outputMovies: this.getOutputMovies(this.getByPathMovies()),
     });
 
-    localStorage.setItem(this.getKeyStorage("query"), this.state.query);
-    localStorage.setItem(
-      this.getKeyStorage("isShortMovies"),
-      this.state.isShortMovies
-    );
+    if (!isSavedMovies) {
+      localStorage.setItem("query", this.state.query);
+      localStorage.setItem("isShortMovies", this.state.isShortMovies);
+    }
   }
 
   render() {

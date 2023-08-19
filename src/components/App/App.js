@@ -18,7 +18,6 @@ import {
   mainApi,
   moviesApi,
   authApi,
-  keysStorageForClear,
 } from "../../utils/constants";
 import { NetworkErrorMessage } from "../../configs/common";
 import ApiError from "../../utils/errros/ApiError";
@@ -170,7 +169,7 @@ function App() {
     setLogged(false);
     setCurrentUser({});
 
-    keysStorageForClear.forEach((key) => localStorage.removeItem(key));
+    localStorage.clear();
   }, []);
 
   useEffect(() => {
@@ -217,9 +216,24 @@ function App() {
             <Route path="/" element={<Main />} exact />
             <Route
               path="/signup"
-              element={<Register onSubmit={registerUser} />}
+              element={
+                <ProtectedRoute
+                  isLogged={!isLogged}
+                  component={Register}
+                  onSubmit={registerUser}
+                />
+              }
             />
-            <Route path="/signin" element={<Login onSubmit={loginUser} />} />
+            <Route
+              path="/signin"
+              element={
+                <ProtectedRoute
+                  isLogged={!isLogged}
+                  component={Login}
+                  onSubmit={loginUser}
+                />
+              }
+            />
 
             <Route
               path="/movies"

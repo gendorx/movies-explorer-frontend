@@ -1,4 +1,4 @@
-import { durationShortMovies } from "../configs/common";
+import { durationShortMovies } from "./constants";
 
 export function convertDuration(duration) {
   const hours = Math.floor(duration / 60);

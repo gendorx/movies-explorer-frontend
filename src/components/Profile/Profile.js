@@ -47,7 +47,6 @@ function Profile({ onSubmit, signOut }) {
 
   useEffect(() => {
     if (!currentUser.name) return;
-    console.log(currentUser);
     setDisabledSubmit(true);
   }, [currentUser]);
 

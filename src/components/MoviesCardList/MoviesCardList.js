@@ -18,6 +18,8 @@ function MoviesCardList({
   const [deviceParams, setDeviceParams] = useState({});
 
   useEffect(() => {
+    if (isSavedMovies) return setOutputMoviesList(listMovies);
+
     for (const deviceName in devicesParamsMovies) {
       const device = devicesParamsMovies[deviceName];
       if (device.minWidth <= screenWidth && device.maxWidth >= screenWidth) {
@@ -25,11 +27,9 @@ function MoviesCardList({
         setOutputMoviesList(
           listMovies.filter((_, i) => i < device.displayMovies.total)
         );
-
-        console.log(device);
       }
     }
-  }, [screenWidth, listMovies]);
+  }, [screenWidth, listMovies, isSavedMovies]);
 
   const handleMoreButtonClick = () => {
     const end = outputMoviesList.length + deviceParams.displayMovies.more;
@@ -64,6 +64,7 @@ function MoviesCardList({
       </ul>
 
       {outputMoviesList.length < listMovies.length &&
+        !isSavedMovies &&
         listMovies.length >= 5 && (
           <div className="movies-cards__button-container">
             <button

@@ -1,8 +1,7 @@
 import { FormProvider, useForm } from "react-hook-form";
-import { useEffect } from "react";
 
 function Form({ onSubmit, children, validate = () => true, ...props }) {
-  const methods = useForm({ mode: "onTouched", reValidateMode: "onChange" });
+  const methods = useForm({ mode: "onChange" });
 
   return (
     <FormProvider {...methods}>

@@ -8,6 +8,8 @@ export const mainApi = new mainApiClass(mainApiConfig);
 export const moviesApi = new moviesApiClass(moviesApiConfig);
 export const authApi = new authApiClass(authApiConfig);
 
+export const durationShortMovies = 40;
+
 export const devicesParamsMovies = {
   desktop: {
     minWidth: 1280,
@@ -36,13 +38,3 @@ export const devicesParamsMovies = {
     },
   },
 };
-
-export const keysStorageForClear = [
-  "jwt",
-  "allMovies",
-  "savedMovies",
-  "query-savedMovies",
-  "isShortMovies-savedMovies",
-  "query-allMovies",
-  "isShortMovies-allMovies",
-];
