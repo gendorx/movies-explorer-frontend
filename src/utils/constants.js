@@ -21,7 +21,7 @@ export const devicesParamsMovies = {
   },
 
   tablet: {
-    minWidth: 481,
+    minWidth: 768,
     maxWidth: 1279,
     displayMovies: {
       total: 8,
@@ -30,8 +30,8 @@ export const devicesParamsMovies = {
   },
 
   mobile: {
-    minWidth: 320,
-    maxWidth: 480,
+    minWidth: 50,
+    maxWidth: 767,
     displayMovies: {
       total: 5,
       more: 2,
